@@ -1,0 +1,30 @@
+version: "3.3"
+services:
+  php8:
+    build: .
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    links: 
+      - mysql
+    ports:
+      - "82:80"
+  composer:
+    image: composer:1.9
+    command: ["composer", "install"]
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+  mysql:
+    container_name: mysql-php8
+    image: mysql:8
+    volumes:
+      - /var/lib/mysql
+    environment: 
+      MYSQL_DATABASE: teste-php
+      MYSQL_ROOT_PASSWORD: root
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    ports: 
+      - '3306:3306'
+  
